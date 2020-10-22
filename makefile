@@ -1,6 +1,10 @@
-CC=gcc
+CC       =  gcc
+CFLAGS   = -g -Wall -I.
+SRCDIR   =  src
 
-SRCDIR=src
+DEPENDENCIES=$(SRCDIR)/say_hello.h
 
-build: $(SRCDIR)/main.c $(SRCDIR)/say_hello.c
-	$(CC) $(SRCDIR)/main.c $(SRCDIR)/say_hello.c -o say_hello.o
+build: program
+
+program: $(SRCDIR)/main.c $(SRCDIR)/say_hello.c
+	$(CC) $(CFLAGS) $? -o $@.o
