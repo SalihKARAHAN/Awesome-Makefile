@@ -1,10 +1,28 @@
 CC       =  gcc
-CFLAGS   = -g -Wall -I.
+CFLAGS   =  -g -Wall -I.
 SRCDIR   =  src
+OBJDIR   =  obj
+BINDIR   =  bin
 
-DEPENDENCIES=$(SRCDIR)/say_hello.h
+SOURCES  = $(shell find $(SRCDIR) -type f -name '*.c') # main.c say_hello.c
+OBJECTS  = $(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SOURCES:.c=.o)) # main.o say_hello.o
+DEPS     = $(OBJECTS:.o=.d)
+BINARY   = $(BINDIR)/Program.bin
+-include $(DEP)
 
-build: program
+all: buildsolution
 
-program: $(SRCDIR)/main.c $(SRCDIR)/say_hello.c
-	$(CC) $(CFLAGS) $? -o $@.o
+buildsolution: dir $(BINARY)
+
+dir:
+	mkdir -p $(OBJDIR)
+	mkdir -p $(BINDIR)
+
+$(BINARY): $(OBJECTS)
+	$(CC) $(CFLAGS) $^ -lc -o $@
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+clean:
+	echo "clean runing..."
