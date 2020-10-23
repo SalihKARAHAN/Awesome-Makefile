@@ -19,7 +19,7 @@ dir:
 	mkdir -p $(BINDIR)
 
 $(BINARY): $(OBJECTS)
-	$(CC) $(CFLAGS) $^ -lc -o $@
+	$(CC) $(CFLAGS) $^ -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) -c -MMD -MP -o $@ $<
