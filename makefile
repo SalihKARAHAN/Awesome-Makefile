@@ -8,7 +8,7 @@ SOURCES  = $(shell find $(SRCDIR) -type f -name '*.c') # main.c say_hello.c
 OBJECTS  = $(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SOURCES:.c=.o)) # main.o say_hello.o
 DEPS     = $(OBJECTS:.o=.d)
 BINARY   = $(BINDIR)/Program.bin
--include $(DEP)
+-include $(DEPS)
 
 all: buildsolution
 
@@ -22,7 +22,9 @@ $(BINARY): $(OBJECTS)
 	$(CC) $(CFLAGS) $^ -lc -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+	echo $@
+	echo $<
+	$(CC) $(CFLAGS) -c -MMD -MP -o $@ $<
 
 clean:
 	echo "clean runing..."
